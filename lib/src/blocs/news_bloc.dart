@@ -5,13 +5,14 @@ import 'package:rxdart/rxdart.dart';
 
 class NewsBloc {
   final _repository = Repository();
-  final _newsFetcher = PublishSubject<List<Article>>();
+  final _newsFetcherTop = PublishSubject<List<Article>>();
+  final _newsFetcherSource = PublishSubject<List<Article>>();
 
   int totalLength = -1;
   int page = 1;
   List <Article> articlesList = List<Article>();
 
-  Observable<List<Article>> get news => _newsFetcher.stream;
+  Observable<List<Article>> get news => _newsFetcherTop.stream;
 
   fetchNews() async {
     if(totalLength == -1 || totalLength > articlesList.length){
@@ -20,7 +21,7 @@ class NewsBloc {
       articlesList.addAll(newsPage.articles);
       totalLength = newsPage.totalResult;
       page++;
-      _newsFetcher.sink.add(articlesList);
+      _newsFetcherTop.sink.add(articlesList);
     } else {
       print('all news loaded');
     }
@@ -31,7 +32,7 @@ class NewsBloc {
   }
 
   dispose() {
-    _newsFetcher.close();
+    _newsFetcherTop.close();
   }
 }
 

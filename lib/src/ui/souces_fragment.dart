@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_news_app/src/models/source.dart';
 import 'package:flutter_news_app/src/blocs/sources_bloc.dart';
+import 'package:flutter_news_app/src/ui/source_news.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SourcesList extends StatefulWidget{
@@ -46,12 +47,12 @@ class SourcesListState extends State<SourcesList>{
             GestureDetector(
               onTap: (){
                 print(snapshot.data[index].url);
-                /*   Navigator.push(
+                   Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) {
-                  return NewsPage(snapshot.data[index].url);
+                  return SourceNews(snapshot.data[index].name, snapshot.data[index].id);
                 }),
-              );*/
+              );
               },
               child:  Container(
                 padding: EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 4),

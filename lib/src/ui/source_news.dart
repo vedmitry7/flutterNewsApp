@@ -3,13 +3,22 @@ import 'package:flutter_news_app/src/blocs/news_bloc.dart';
 import 'package:flutter_news_app/src/models/article.dart';
 import 'package:flutter_news_app/src/ui/news_web_page.dart';
 
-class NewsList3 extends StatefulWidget {
+class SourceNews extends StatefulWidget {
+
+  String name, id;
+
+
+  SourceNews(this.name, this.id);
 
   @override
-  NewsList3State createState() => new NewsList3State();
+  SourceNewsState createState() => new SourceNewsState(name, id);
 }
 
-class NewsList3State extends State<NewsList3> {
+class SourceNewsState extends State<SourceNews> {
+
+  String name, id;
+
+  SourceNewsState(this.name, this.id);
 
   ScrollController _controller;
 
@@ -21,7 +30,14 @@ class NewsList3State extends State<NewsList3> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
+    return new Scaffold(
+        appBar: new AppBar(
+          backgroundColor: Colors.black87,
+          // here we display the title corresponding to the fragment
+          // you can instead choose to have a static title
+          title: new Text(name),
+        ),
+        body: StreamBuilder(
             stream: newsBloc.news,
             builder: (context, AsyncSnapshot<List<Article>> snapshot) {
               if (snapshot.hasData) {
@@ -30,7 +46,8 @@ class NewsList3State extends State<NewsList3> {
                 return Text(snapshot.error.toString());
               }
               return Center(child: CircularProgressIndicator());
-            });
+            })
+    );
   }
 
 
@@ -56,13 +73,13 @@ class NewsList3State extends State<NewsList3> {
         controller: _controller,
         itemBuilder: (BuildContext context, int index){
           return index == snapshot.data.length ?
-              newsBloc.mayLoadMore() ?
+          newsBloc.mayLoadMore() ?
           Container(
             height: 56,
             child: Padding (padding: EdgeInsets.only(left: 6, right: 6, top: 6, bottom: 6),
-            child: new CircularProgressIndicator(
-                valueColor: new AlwaysStoppedAnimation(Colors.blue),
-                strokeWidth: 3.0)),
+                child: new CircularProgressIndicator(
+                    valueColor: new AlwaysStoppedAnimation(Colors.blue),
+                    strokeWidth: 3.0)),
           ) : SizedBox(height: 0)
               :
           GestureDetector(

@@ -27,4 +27,14 @@ class ApiProvider {
     return Sources.fromJson(json.decode(response.body));
   }
 
+  Future<NewsPage> fetchNewsBySource(String source, int page) async {
+    String url = 'https://newsapi.org/v2/everything?' +
+        'sources=$source&' +
+        'page=$page&' +
+        "apiKey=$_apiKey";
+    final response = await client.get(url);
+    print(response.body);
+    return NewsPage.fromJson(json.decode(response.body));
+  }
+
 }
