@@ -3,10 +3,9 @@ import 'package:flutter_news_app/src/models/news_page.dart';
 import 'package:flutter_news_app/src/resources/repository.dart';
 import 'package:rxdart/rxdart.dart';
 
-class NewsBloc {
+class TopNewsBloc {
   final _repository = Repository();
   final _newsFetcherTop = PublishSubject<List<Article>>();
-  final _newsFetcherSource = PublishSubject<List<Article>>();
 
   int totalLength = -1;
   int page = 1;
@@ -17,7 +16,7 @@ class NewsBloc {
   fetchNews() async {
     if(totalLength == -1 || totalLength > articlesList.length){
       print('load p ' + page.toString());
-      NewsPage newsPage = await _repository.fetchAllNews(page);
+      NewsPage newsPage = await _repository.fetchTopNews(page);
       articlesList.addAll(newsPage.articles);
       totalLength = newsPage.totalResult;
       page++;
@@ -36,4 +35,4 @@ class NewsBloc {
   }
 }
 
-final newsBloc = NewsBloc();
+final newsBloc = TopNewsBloc();

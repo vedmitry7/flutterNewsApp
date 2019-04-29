@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_news_app/src/blocs/news_bloc.dart';
+import 'package:flutter_news_app/src/blocs/source_news_bloc.dart';
 import 'package:flutter_news_app/src/models/article.dart';
 import 'package:flutter_news_app/src/ui/news_web_page.dart';
 
@@ -25,7 +25,7 @@ class SourceNewsState extends State<SourceNews> {
   @override
   void initState() {
     _controller = new ScrollController()..addListener(_scrollListener);
-    newsBloc.fetchNews();
+    newsBloc.fetchNews(id);
   }
 
   @override
@@ -33,8 +33,6 @@ class SourceNewsState extends State<SourceNews> {
     return new Scaffold(
         appBar: new AppBar(
           backgroundColor: Colors.black87,
-          // here we display the title corresponding to the fragment
-          // you can instead choose to have a static title
           title: new Text(name),
         ),
         body: StreamBuilder(
@@ -55,7 +53,7 @@ class SourceNewsState extends State<SourceNews> {
     if (_controller.offset >= _controller.position.maxScrollExtent &&
         !_controller.position.outOfRange) {
       print("reach the bottom");
-      newsBloc.fetchNews();
+      newsBloc.fetchNews(id);
     }
     if (_controller.offset <= _controller.position.minScrollExtent &&
         !_controller.position.outOfRange) {
